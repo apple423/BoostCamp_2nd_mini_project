@@ -14,6 +14,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by Han on 2017-07-12.
  */
@@ -121,27 +125,20 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
         return 4;
     }
 
-    // 뷰홀더에서 리스너를 implements하여 체크박스 버튼을 눌렀을때 가게 정보를 바꾸어 줍니다.
-    public class ShopViewHolder extends RecyclerView.ViewHolder implements Button.OnClickListener{
 
-        TextView shopNameTextView;
+    // 뷰홀더에서 리스너를 implements하여 체크박스 버튼을 눌렀을때 가게 정보를 바꾸어 줍니다.
+    public class ShopViewHolder extends RecyclerView.ViewHolder{
+
+       /* TextView shopNameTextView;
         ImageView shopImageView;
         TextView showArticleTextView;
-        ImageButton chkboxButton;
+        ImageButton chkboxButton;*/
+        @BindView(R.id.shop_name_textview) TextView shopNameTextView;
+        @BindView(R.id.shop_imageview) ImageView shopImageView;
+        @BindView(R.id.shop_article_textview)TextView showArticleTextView;
+        @BindView(R.id.shop_check_button)ImageButton chkboxButton;
 
-
-
-        public ShopViewHolder(View itemView) {
-            super(itemView);
-            shopNameTextView = (TextView)itemView.findViewById(R.id.shop_name_textview);
-            shopImageView = (ImageView)itemView.findViewById(R.id.shop_imageview);
-            showArticleTextView = (TextView)itemView.findViewById(R.id.shop_article_textview);
-            chkboxButton = (ImageButton)itemView.findViewById(R.id.shop_check_button);
-            chkboxButton.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
+        @OnClick(R.id.shop_check_button) public void onClickCheckButton(View v) {
             Shop currentShop = shopList.get(getAdapterPosition());
             if(currentShop.isChecked()){
 
@@ -156,6 +153,17 @@ public class ShopAdapter extends RecyclerView.Adapter<ShopAdapter.ShopViewHolder
             }
 
         }
+
+        public ShopViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+
+           // chkboxButton.setOnClickListener(this);
+
+
+        }
+
+
     }
 
 

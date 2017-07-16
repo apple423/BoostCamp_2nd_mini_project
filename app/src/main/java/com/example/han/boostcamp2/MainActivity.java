@@ -22,6 +22,10 @@ import android.widget.ImageButton;
 
 import java.util.Random;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,17 +45,39 @@ public class MainActivity extends AppCompatActivity
     private int[] popularityArray = {4,3,2,1};
     private int[] recentArray = {2,3,1,4};
 
-
     // 필요한 것들 선언
-    private RecyclerView recyclerView;
+    @BindView(R.id.content_recycler) RecyclerView recyclerView;
+
+    @BindView(R.id.layout_imageButton) ImageButton layoutImageButton;
+
+    @BindView(R.id.tabLayout) TabLayout tabLayout;
 
     private ShopAdapter shopAdapter;
 
-    private ImageButton layoutImageButton;
-
     private boolean isLinear = true;
 
-    private TabLayout tabLayout;
+
+    @OnClick(R.id.layout_imageButton) public void onClick(View v) {
+
+        if(isLinear){
+            isLinear =false;
+            layoutImageButton.setImageResource(R.drawable.staggered_button);
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+            for(int i  = 0; i<shopAdapter.getItemCount(); i++)
+                shopAdapter.notifyItemChanged(i);
+
+        }
+        else{
+            isLinear = true;
+            layoutImageButton.setImageResource(R.drawable.linear_button);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            for(int i  = 0; i<shopAdapter.getItemCount(); i++)
+                shopAdapter.notifyItemChanged(i);
+
+
+        }
+
+    }
 
     // 레이아웃 매니저들 생성 및 선언
     // 값이 바뀌지 않고 똑같은걸 계속 쓸테니 상수로 썼습니다.
@@ -65,6 +91,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -78,7 +105,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        recyclerView = (RecyclerView)findViewById(R.id.content_recycler);
+        //recyclerView = (RecyclerView)findViewById(R.id.content_recycler);
 
         /*final LinearLayoutManager linearLayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -100,7 +127,8 @@ public class MainActivity extends AppCompatActivity
         initList();
 
 
-        layoutImageButton = (ImageButton)findViewById(R.id.layout_imageButton);
+        //layoutImageButton = (ImageButton)findViewById(R.id.layout_imageButton);
+/*        @OnClick(R.id.layout_imageButton)
         // 우측 상단 버튼을 눌렀을때 레이아웃이 바뀌는 이벤트
         Button.OnClickListener layoutButtonListener = new View.OnClickListener() {
             @Override
@@ -110,23 +138,27 @@ public class MainActivity extends AppCompatActivity
                     isLinear =false;
                     layoutImageButton.setImageResource(R.drawable.staggered_button);
                     recyclerView.setLayoutManager(staggeredGridLayoutManager);
+                    for(int i  = 0; i<shopAdapter.getItemCount(); i++)
+                    shopAdapter.notifyItemChanged(i);
 
                 }
                 else{
                     isLinear = true;
                     layoutImageButton.setImageResource(R.drawable.linear_button);
                     recyclerView.setLayoutManager(linearLayoutManager);
+                    for(int i  = 0; i<shopAdapter.getItemCount(); i++)
+                        shopAdapter.notifyItemChanged(i);
 
 
                 }
 
 
             }
-        };
+        };*/
 
-        layoutImageButton.setOnClickListener(layoutButtonListener);
+       // layoutImageButton.setOnClickListener(layoutButtonListener);
 
-        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
+        //tabLayout = (TabLayout)findViewById(R.id.tabLayout);
 
         // 각 탭을 눌렀을때 리스트 재배치
 
